@@ -1,0 +1,2 @@
+# Ignore MySQL generated files
+db/data/
