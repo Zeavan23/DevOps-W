@@ -1,5 +1,4 @@
 #!/bin/bash
-# wait-for-it.sh
 
 set -e
 

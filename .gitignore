@@ -1,2 +1,2 @@
-# Ignore the data directory inside db
+# Ignore database data
 db/data/
