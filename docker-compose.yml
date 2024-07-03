@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=mypassword
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    volumes:
+      - ./db/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  app1:
+    build: ./app1
+    environment:
+      - DATABASE_URL=mysql+pymysql://myuser:mypassword@db/mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    depends_on:
+      - db
+    ports:
+      - "8001:8001"
+    entrypoint: ["./wait-for-it.sh", "db", "--", "python", "app.py"]
+
+  app2:
+    build: ./app2
+    environment:
+      - DATABASE_URL=mysql+pymysql://myuser:mypassword@db/mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    depends_on:
+      - db
+    ports:
+      - "8002:8002"
+    entrypoint: ["./wait-for-it.sh", "db", "--", "python", "app.py"]
+
+  app3:
+    build: ./app3
+    environment:
+      - DATABASE_URL=mysql+pymysql://myuser:mypassword@db/mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    depends_on:
+      - db
+    ports:
+      - "8003:8003"
+    entrypoint: ["./wait-for-it.sh", "db", "--", "python", "app.py"]
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - app1
+      - app2
+      - app3
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
