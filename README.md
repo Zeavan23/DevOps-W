@@ -1,4 +1,4 @@
-DevOps Whist Project
+DevOps Project
 Description
 This project demonstrates a simple web application setup using Docker Compose. The application consists of three Python Flask applications, a MySQL database, and an Nginx load balancer. The applications log access details and maintain a global counter. The Nginx load balancer distributes traffic between the applications and provides sticky session functionality.
 
